@@ -1,0 +1,49 @@
+.venv/
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Local datasets and corpus/index artifacts are not redistributed.
+exp/data/*
+!exp/data/README.md
+*.parquet
+*.jsonl
+*.faiss
+faiss_index_emb*
+corpus_embeddings.npy
+
+# Model caches/checkpoints
+hf_cache/
+exp/hf_cache/
+models/
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Experiment outputs
+exp/cross_query_se/outputs/
+exp/cross_query_se/results/
+exp/DTR/results/
+exp/EXPERIMENT_RESULTS/
+wandb/
+
+# Local notes and service logs
+local_notes/
+exp/local_notes/
+exp/idea/
+idea/
+task_plan.json
+.train_service_logs/
+.deploy_service_logs/
+
+# OS/editor/build noise
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
