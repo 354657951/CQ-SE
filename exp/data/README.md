@@ -1,6 +1,3 @@
-# Data Directory
-
-This directory is intentionally empty in the public repository. Do not commit downloaded datasets, Wikipedia corpora, embeddings, FAISS indexes, or model caches.
 
 ## Benchmark QA Splits
 
