@@ -1,24 +1,37 @@
 # Data Directory
 
-This directory is intentionally empty in the public repository. Do not commit downloaded datasets, Wikipedia corpora, embeddings, FAISS indexes, or model caches.
+This directory contains selected public benchmark splits used by the experiments. Large corpora, retrieval indexes, model caches, and some third-party datasets are not bundled.
 
-## Benchmark QA Splits
-
-From `exp/`, run:
-
-```bash
-python cross_query_se/scripts/download_datasets.py
-```
-
-The script downloads public benchmark splits and converts them to the expected local layout:
+## Included Splits
 
 ```text
 data/
 ├── nq/nq-test-contriever.json
-├── webqa/wq-test-contriever.json
-├── TriviaQA/unfiltered-web-dev.json
 ├── hotpotqa/test_qa_pairs.json
 └── SQuAD/validation-00000-of-00001.parquet
+```
+
+## Download-Only Splits
+
+The following files are expected by the scripts but are not included in this repository:
+
+| Expected local file | Source |
+| --- | --- |
+| `data/webqa/wq-test-contriever.json` | Hugging Face: https://huggingface.co/datasets/stanfordnlp/web_questions |
+| `data/TriviaQA/unfiltered-web-dev.json` | TriviaQA unfiltered v1.0: https://nlp.cs.washington.edu/triviaqa/data/triviaqa-unfiltered.tar.gz |
+
+You can also prepare these files through the repository script:
+
+```bash
+cd exp
+python cross_query_se/scripts/download_datasets.py webqa triviaqa
+```
+
+For reference, the original Stanford WebQuestions release is available at:
+
+```text
+http://nlp.stanford.edu/static/software/sempre/release-emnlp2013/lib/data/webquestions/dataset_11/webquestions.examples.train.json.bz2
+http://nlp.stanford.edu/static/software/sempre/release-emnlp2013/lib/data/webquestions/dataset_11/webquestions.examples.test.json.bz2
 ```
 
 ## Retrieval Corpus And Indexes

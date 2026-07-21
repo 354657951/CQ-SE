@@ -49,7 +49,7 @@ The key distinction from within-query semantic entropy is the source of variatio
 
 ## Data Preparation
 
-Datasets are **not redistributed** in this repository. The release provides download and conversion scripts instead.
+Selected benchmark splits are included under `exp/data/`. For datasets that are not bundled, use the links below or run the provided download script.
 
 From the experiment directory:
 
@@ -60,13 +60,13 @@ python cross_query_se/scripts/download_datasets.py
 
 This prepares DTR-compatible benchmark files under `exp/data/` for:
 
-| Dataset | Public source used by the script | Split |
-| --- | --- | --- |
-| NaturalQuestions Open | `nq_open` | validation |
-| WebQuestions | `web_questions` | test |
-| TriviaQA | `trivia_qa`, `unfiltered` | validation |
-| HotpotQA | `hotpot_qa`, `fullwiki` | validation |
-| SQuAD | `rajpurkar/squad` | validation |
+| Dataset | Local file | Status | Source |
+| --- | --- | --- | --- |
+| NaturalQuestions Open | `exp/data/nq/nq-test-contriever.json` | included | `nq_open`, validation |
+| HotpotQA | `exp/data/hotpotqa/test_qa_pairs.json` | included | `hotpot_qa`, fullwiki validation |
+| SQuAD | `exp/data/SQuAD/validation-00000-of-00001.parquet` | included | `rajpurkar/squad`, validation |
+| WebQuestions | `exp/data/webqa/wq-test-contriever.json` | download only | https://huggingface.co/datasets/stanfordnlp/web_questions |
+| TriviaQA | `exp/data/TriviaQA/unfiltered-web-dev.json` | download only | https://nlp.cs.washington.edu/triviaqa/data/triviaqa-unfiltered.tar.gz |
 
 Open-domain retrieval also expects a local Wikipedia passage corpus and BGE index:
 
