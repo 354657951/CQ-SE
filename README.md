@@ -47,34 +47,6 @@ Given a user query `q`, CQ-SE estimates whether retrieval is needed by probing h
 
 The key distinction from within-query semantic entropy is the source of variation: standard SE varies the generation seed under a fixed retrieved context, while CQ-SE varies the retrieval context through semantically equivalent query reformulations.
 
-## Repository Layout
-
-The public release keeps the original experiment-oriented structure while excluding datasets, model caches, generated outputs, submission records, and local run artifacts.
-
-```text
-.
-├── assets/
-│   └── framework_overview.png
-├── exp/
-│   ├── cross_query_se/        # CQ-SE implementation, baselines, scripts, analysis
-│   ├── DTR/                   # Minimal DTR-compatible data/evaluation helpers
-│   └── data/                  # Empty by default; see exp/data/README.md
-├── .env.example               # Non-secret configuration template
-├── requirements.txt
-└── README.md
-```
-
-## Installation
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-```
-
-Edit `.env` for your local environment. In particular, set `HF_HOME` to your Hugging Face cache directory. Keep API keys in local environment variables or `.env`; do not commit secrets.
-
 ## Data Preparation
 
 Datasets are **not redistributed** in this repository. The release provides download and conversion scripts instead.
@@ -113,46 +85,6 @@ bash cross_query_se/scripts/run_build_index.sh
 
 See `exp/data/README.md` for the expected local data layout.
 
-## Quick Start
-
-Run the environment check:
-
-```bash
-cd exp
-bash cross_query_se/scripts/verify_gpu_env.sh
-```
-
-Run a small CQ-SE sanity check on NaturalQuestions:
-
-```bash
-cd exp
-bash cross_query_se/scripts/run_cross_query_se_sanity.sh
-```
-
-Run the main CQ-SE pipeline:
-
-```bash
-cd exp
-bash cross_query_se/scripts/run_cross_query_se.sh
-```
-
-Run baseline and ablation scripts:
-
-```bash
-cd exp
-bash cross_query_se/scripts/run_sugar_baseline.sh
-bash cross_query_se/scripts/run_intrygue_baseline.sh
-bash cross_query_se/scripts/run_ablation_no_reretrieval.sh
-bash cross_query_se/scripts/run_ablation_no_nli_filtering.sh
-bash cross_query_se/scripts/run_ablation_tau_sweep.sh
-```
-
-Long-running scripts assume GPU access and local model/cache availability. The provided shell scripts infer `EXP_DIR` from their own location; you can override it manually:
-
-```bash
-EXP_DIR=/path/to/repo/exp bash cross_query_se/scripts/run_cross_query_se_sanity.sh
-```
-
 ## Main Components
 
 - `cross_query_se/perturbation/`: query rewrite generation and semantic filtering
@@ -162,27 +94,7 @@ EXP_DIR=/path/to/repo/exp bash cross_query_se/scripts/run_cross_query_se_sanity.
 - `cross_query_se/analysis/`: retrieval-variance analysis and plotting
 - `cross_query_se/scripts/`: experiment, baseline, ablation, and verification scripts
 
-## Reproducibility Notes
-
-- Main experiments use Qwen2.5-7B-Instruct and Qwen2.5-72B-Instruct.
-- The dense retriever is BGE-large-en-v1.5 with top-5 passage retrieval.
-- CQ-SE uses `K=10` query paraphrases and NLI threshold `tau=0.75`.
-- Reported experiments use three random seeds: `0`, `1`, and `2`.
-- Generated outputs should stay under `exp/cross_query_se/outputs/` or `exp/cross_query_se/results/`; both are git-ignored.
-- Dataset files, indexes, model weights, Hugging Face caches, logs, and local notes are intentionally excluded.
 
 ## Citation
 
 Citation information will be added after the paper appears in the official conference proceedings.
-
-## Release Hygiene
-
-This public source tree intentionally does not include:
-
-- benchmark datasets or derived dataset files
-- Wikipedia corpora, embeddings, FAISS indexes, or model checkpoints
-- Hugging Face caches or local environment files
-- generated experiment outputs and logs
-- acceptance letters, submission-system screenshots, or private project notes
-
-Before publishing, run the repository checks described in the project preparation notes and confirm that no local data or private artifacts have been staged.
