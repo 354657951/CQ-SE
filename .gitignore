@@ -7,10 +7,17 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
-# Local datasets and corpus/index artifacts are not redistributed.
+# Only selected public benchmark splits are tracked; large local artifacts stay out.
 exp/data/*
 !exp/data/README.md
+!exp/data/nq/
+!exp/data/nq/nq-test-contriever.json
+!exp/data/hotpotqa/
+!exp/data/hotpotqa/test_qa_pairs.json
+!exp/data/SQuAD/
+!exp/data/SQuAD/validation-00000-of-00001.parquet
 *.parquet
+!exp/data/SQuAD/validation-00000-of-00001.parquet
 *.jsonl
 *.faiss
 faiss_index_emb*
