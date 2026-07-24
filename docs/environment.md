@@ -17,15 +17,6 @@ The environment below supports the main CQ-SE components:
 Compatible versions may also work. The versions below are provided as a known
 reference configuration.
 
-## Hardware Profiles
-
-| Profile | Setting |
-| --- | --- |
-| 7B scale | 1 x 80GB-class GPU. NVIDIA RTX 6000D reports 85,651 MiB GPU memory through `nvidia-smi`. |
-| 72B scale | Multi-GPU 80GB-class setup. The 72B vLLM scripts use tensor parallelism with `tensor_parallel_size=4`; full baseline scripts assume an 8-GPU node so generation, retrieval, NLI, and 72B model sharding have enough device capacity. |
-| Data disk | Large data disk recommended for 21MWiki, embeddings, outputs, and model caches. A 350 GB data disk is sufficient for a compact local setup; full-scale artifacts require more storage. |
-| OS image | Ubuntu 22.04 LTS family |
-
 ## Python And CUDA
 
 | Component | Version |
@@ -34,19 +25,29 @@ reference configuration.
 | PyTorch | 2.8.0+cu128 |
 | PyTorch CUDA runtime | 12.8 |
 
-## Core Python Packages
+## Python Dependencies
 
-| Package | Version |
-| --- | --- |
-| vLLM | 0.11.0 |
-| transformers | 4.57.1 |
-| sentence-transformers | 5.6.0 |
-| scikit-learn | 1.7.2 |
-| numpy | 2.2.6 |
-| pandas | 2.3.3 |
-| scipy | 1.15.3 |
-| FAISS | 1.14.3 |
-| FlagEmbedding | project dependency |
+| Package | Role in the project | Version note |
+| --- | --- | --- |
+| `torch` | GPU tensor runtime used by retrieval, NLI, and local model execution. | `2.8.0+cu128` |
+| `vllm` | Local high-throughput generation backend for Qwen models. | `0.11.0` |
+| `transformers` | Tokenizers and model loading for Qwen and DeBERTa. | `4.57.1` |
+| `accelerate` | Multi-GPU model loading support for large-model baseline stages. | Compatible with the Transformers stack |
+| `sentence-transformers` | Loads BGE-large-en-v1.5 and encodes queries/passages. | `5.6.0` |
+| `FlagEmbedding` | BGE-related embedding utilities used by project checks/tools. | Required |
+| `faiss-cpu` | Builds and reads dense vector indexes where FAISS is used. | FAISS `1.14.3` |
+| `numpy` | Embedding arrays, matrix operations, and saved `.npy` files. | `2.2.6` |
+| `scipy` | Statistical analysis and supporting numerical routines. | `1.15.3` |
+| `scikit-learn` | Metrics such as AUROC and supporting evaluation utilities. | `1.7.2` |
+| `pandas` | Tabular result processing and analysis. | `2.3.3` |
+| `pyarrow` | Dataset/table IO support used with benchmark data processing. | Required |
+| `datasets` | Downloads or loads Hugging Face benchmark datasets. | Required |
+| `matplotlib` | Figure generation for analysis scripts. | Required for plots |
+| `seaborn` | Statistical plot styling for analysis scripts. | Required for plots |
+| `tqdm` | Progress bars for indexing, generation, and filtering scripts. | Required |
+| `regex` | Text normalization in QA evaluation utilities. | Required |
+| `python-dotenv` | Allows scripts to read local `.env` files when users choose to create one. | Required |
+| `openai` | Optional OpenAI-compatible client for API-based query perturbation generation. | Required only for API mode |
 
 ## Models
 
@@ -56,6 +57,14 @@ reference configuration.
 | Generator / answer model, 72B scale | `Qwen/Qwen2.5-72B-Instruct` |
 | Dense retriever encoder | `BAAI/bge-large-en-v1.5` |
 | NLI semantic clustering | `microsoft/deberta-v2-xlarge-mnli` |
+
+## Runtime Variables
+
+| Variable | Purpose |
+| --- | --- |
+| `HF_HOME` | Optional Hugging Face cache root for downloaded models and datasets. |
+| `LEMMA_MAAS_BASE_URL` | Optional OpenAI-compatible endpoint for API-based query perturbation generation. |
+| `LEMMA_MAAS_API_KEY` | Optional API key for the same endpoint. Do not commit real keys. |
 
 Users can either rely on the Hugging Face cache or point the scripts to local
 model directories when using a local model mirror or pre-downloaded weights.
