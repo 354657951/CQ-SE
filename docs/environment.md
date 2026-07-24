@@ -57,14 +57,3 @@ reference configuration.
 | Generator / answer model, 72B scale | `Qwen/Qwen2.5-72B-Instruct` |
 | Dense retriever encoder | `BAAI/bge-large-en-v1.5` |
 | NLI semantic clustering | `microsoft/deberta-v2-xlarge-mnli` |
-
-## Runtime Variables
-
-| Variable | Purpose |
-| --- | --- |
-| `HF_HOME` | Optional Hugging Face cache root for downloaded models and datasets. |
-| `LEMMA_MAAS_BASE_URL` | Optional OpenAI-compatible endpoint for API-based query perturbation generation. |
-| `LEMMA_MAAS_API_KEY` | Optional API key for the same endpoint. Do not commit real keys. |
-
-Users can either rely on the Hugging Face cache or point the scripts to local
-model directories when using a local model mirror or pre-downloaded weights.
