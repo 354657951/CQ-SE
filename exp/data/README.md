@@ -2,14 +2,6 @@
 
 This directory contains selected public benchmark splits used by the experiments. Large corpora, retrieval indexes, model caches, and some third-party datasets are not bundled.
 
-## Included Splits
-
-```text
-data/
-├── nq/nq-test-contriever.json
-├── hotpotqa/test_qa_pairs.json
-└── SQuAD/validation-00000-of-00001.parquet
-```
 
 ## Download-Only Splits
 
@@ -34,20 +26,4 @@ http://nlp.stanford.edu/static/software/sempre/release-emnlp2013/lib/data/webque
 http://nlp.stanford.edu/static/software/sempre/release-emnlp2013/lib/data/webquestions/dataset_11/webquestions.examples.test.json.bz2
 ```
 
-## Retrieval Corpus And Indexes
 
-Open-domain experiments expect a local Wikipedia passage corpus:
-
-```text
-data/21MWiki/psgs_w100.tsv
-data/21MWiki_bge/faiss_index_emb
-data/21MWiki_bge/corpus_embeddings.npy
-```
-
-Prepare the corpus from the source used in your experiment environment, then build indexes locally:
-
-```bash
-bash cross_query_se/scripts/run_build_index.sh
-```
-
-These files can be large and are not redistributed here.
